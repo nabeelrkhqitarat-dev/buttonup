@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttoned Up | By Romesa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           COLOR PALETTE & GLOBAL STYLES (Poster Matched)
+           ========================================= */
+        :root {
+            --bg-blue: #acc6e9;      /* Light dusty blue from background */
+            --navy: #1d2c6c;         /* Deep navy from main text */
+            --cream: #fdf1d6;        /* Light cream/yellow from cards */
+            --rose: #e5a8b0;         /* Dusty rose from accents */
+            --white: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--navy);
+            background-color: var(--bg-blue);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Subtle dot pattern for a "notebook" feel */
+            background-image: radial-gradient(var(--navy) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            background-color: var(--bg-blue);
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: 'Fredoka', sans-serif; 
+            color: var(--navy); 
+            margin-top: 0; 
+            letter-spacing: 0.5px;
+        }
+
+        .container { 
+            max-width: 1000px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+        }
+
+        /* =========================================
+           NAVIGATION
+           ========================================= */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            padding: 10px 20px; 
+            background-color: var(--navy);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        /* Monogram Nav Image */
+        .nav-monogram {
+            width: 45px; height: 45px;
+            background-color: var(--cream);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--rose);
+            overflow: hidden;
+        }
+        .nav-monogram img { width: 100%; height: 100%; object-fit: cover; }
+
+        nav a {
+            text-decoration: none; color: var(--cream);
+            font-weight: 800; font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--rose); }
+
+        /* =========================================
+           CARDS & GENERAL PANELS
+           ========================================= */
+        .card {
+            background-color: var(--cream);
+            padding: 40px; 
+            border-radius: 15px; 
+            margin-bottom: 35px;
+            border: 3px solid var(--navy);
+            box-shadow: 6px 6px 0px rgba(29, 44, 108, 0.15);
+        }
+        .card p {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        /* =========================================
+           HERO SECTION & LOGO
+           ========================================= */
+        .hero {
+            text-align: center; 
+            position: relative;
+        }
+
+        /* Main Logo Image */
+        .main-logo-container {
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-logo-container img { 
+            width: 100%; 
+            height: auto; 
+            object-fit: contain; 
+            border-radius: 12px; 
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 5px; }
+
+        /* =========================================
+           INTERACTIVE BAG
+           ========================================= */
+        .virtual-bag {
+            width: 100%; max-width: 500px; height: 280px;
+            background: #f4a6b6; margin: 30px auto;
+            border-radius: 40px 40px 15px 15px; position: relative;
+            border: 4px solid var(--navy);
+            box-shadow: inset 0 -15px 20px rgba(0,0,0,0.15), 6px 6px 0px rgba(29, 44, 108, 0.15);
+        }
+        .virtual-bag::before {
+            content: ''; position: absolute; top: 30px; left: 5%; width: 90%; height: 5px;
+            background: rgba(0,0,0,0.2); border-radius: 5px;
+        }
+
+        .pin {
+            width: 60px; height: 60px; border-radius: 50%;
+            position: absolute; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+            box-shadow: 3px 6px 10px rgba(0,0,0,0.3), inset -2px -4px 8px rgba(0,0,0,0.2);
+            border: 2px solid var(--cream);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pin:hover { transform: scale(1.25) rotate(10deg); z-index: 10; border-color: var(--navy); }
+        .pin.active { transform: scale(1.3); border-color: var(--navy); z-index: 15; box-shadow: 0 0 15px var(--rose); }
+
+        .pin-1 { top: 60px; left: 40px; background-color: var(--navy); } 
+        .pin-2 { top: 50px; left: 140px; background-color: #74b9ff; } 
+        .pin-3 { top: 80px; right: 80px; background-color: var(--rose); } 
+        .pin-4 { bottom: 50px; left: 80px; background-color: #ffeaa7; } 
+        .pin-5 { bottom: 60px; right: 140px; background-color: #ff7675; } 
+        .pin-6 { bottom: 30px; right: 40px; background-color: #55efc4; } 
+
+        #pin-info {
+            background: var(--navy); color: var(--cream);
+            padding: 20px; border-radius: 10px; text-align: center;
+            border: 3px solid var(--rose); display: none;
+            margin-bottom: 40px; animation: fadeIn 0.3s;
+        }
+        #pin-info h2 { color: var(--rose); margin-bottom: 10px; }
+        #pin-info p { color: var(--white); margin: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           CHARITY BANNER
+           ========================================= */
+        .charity-bar {
+            text-align: center; background-color: var(--rose); color: var(--navy);
+            padding: 20px; font-weight: 900; border-radius: 15px; margin-bottom: 35px;
+            font-size: 1.4rem; border: 3px solid var(--navy);
+            box-shadow: 6px 6px 0px rgba(29, 44, 108, 0.15);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* =========================================
+           GALLERY GRID SECTION
+           ========================================= */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .gallery-item {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--navy);
+            box-shadow: 4px 4px 0px rgba(29, 44, 108, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px) rotate(1deg);
+        }
+        .gallery-image-wrapper {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 2px solid var(--navy);
+            box-sizing: border-box;
+        }
+        .gallery-image-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+        } 
+        .gallery-caption {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--navy);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           CALCULATOR
+           ========================================= */
+        .calculator {
+            background-color: var(--white); border: 3px dashed var(--navy);
+            padding: 25px; border-radius: 10px; text-align: center; margin-top: 20px;
+        }
+        .calculator input {
+            width: 80px; padding: 10px; font-size: 1.5rem; text-align: center;
+            border: 2px solid var(--navy); border-radius: 10px; margin: 10px;
+            font-family: 'Fredoka', sans-serif; font-weight: bold; color: var(--navy);
+            background-color: var(--cream);
+        }
+        .results-box {
+            display: flex; justify-content: space-around; margin-top: 20px;
+            background: var(--navy); color: var(--white); padding: 20px; border-radius: 10px;
+            border: 2px solid var(--rose);
+        }
+        .results-box h3 { color: var(--rose); margin-bottom: 5px; font-size: 1.2rem; }
+
+        /* =========================================
+           EVENT SECTION (High Contrast)
+           ========================================= */
+        #event {
+            background-color: var(--navy); 
+            color: var(--cream);
+            border: 3px solid var(--rose);
+        }
+        #event h2 { color: var(--rose); border-bottom: 2px solid var(--rose); padding-bottom: 10px; display: inline-block;}
+        #event p { color: var(--white); font-size: 1.2rem; }
+        #event strong { color: var(--rose); }
+
+        /* Footer */
+        footer { 
+            text-align: center; padding: 30px; font-weight: 800; 
+            color: var(--cream); background-color: var(--navy); 
+            border-top: 5px solid var(--rose);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-monogram">
+            <img src="monogram.jpeg" alt="BU Monogram">
+        </div>
+        <a href="#about">About Romesa</a>
+        <a href="#gallery">Collection Gallery</a>
+        <a href="#pricing">Pricing Estimator</a>
+        <a href="#event">Upcoming Event</a>
+    </nav>
+
+    <div class="container">
+        
+        <header class="hero card">
+            
+            <div class="main-logo-container">
+                <img src="main-logo.jpeg" alt="Buttoned Up Logo">
+            </div>
+
+            <p style="font-size: 1.4rem; color: var(--navy);"><strong>Express. Personalize. Inspire.</strong></p>
+            <p>👇 Click the pins on the bag to reveal the vibes! 👇</p>
+            
+            <div class="virtual-bag">
+                <div class="pin pin-1" onclick="showPinInfo(this, '🎤 Music Icons', 'From SZA and Frank Ocean to Bruno Mars and Blackpink, wear your playlist on your sleeve.')">🎵</div>
+                <div class="pin pin-2" onclick="showPinInfo(this, '🔍 Anime & Manga', 'Featuring classics like Detective Conan. Perfect for the ultimate otaku!')">⛩️</div>
+                <div class="pin pin-3" onclick="showPinInfo(this, '🍿 Pop Culture & Shows', 'Stranger Things, Coraline, and movie aesthetics that show off your fandom.')">📺</div>
+                <div class="pin pin-4" onclick="showPinInfo(this, '✨ Aesthetic Vibes', 'Minimalist line art, cute quotes, and trendy designs that match any outfit.')">✨</div>
+                <div class="pin pin-5" onclick="showPinInfo(this, '💖 Love & Family', 'Beautiful floral and heart designs perfect for gifts or showing appreciation.')">🌷</div>
+                <div class="pin pin-6" onclick="showPinInfo(this, '🐱 Cartoons & Cute', 'Hello Kitty, SpongeBob aesthetics, Totoro, and all things adorable!')">🐾</div>
+            </div>
+        </header>
+
+        <div id="pin-info">
+            <h2 id="pin-title">Select a Pin!</h2>
+            <p id="pin-desc">Click any pin on the bag above to see the collection details.</p>
+        </div>
+        
+        <div class="charity-bar">♥ 10% of Profits goes to Sick Kids Foundation ♥</div>
+
+        <section id="about" class="card">
+            <h2>👋 Meet the Founder</h2>
+            <p style="font-size: 1.4rem; color: var(--navy);">Hi! I’m <strong>Romesa</strong>, the creator behind Buttoned Up.</p>
+            <p>I run every part of the business, from designing the pins to marketing and selling them. I started this business because I enjoy being creative and wanted to turn that into something fun that others can enjoy too.</p>
+            <p>I like keeping up with trends and creating designs that people actually want to wear. My goal is to keep growing Buttoned Up and continue making new and unique pins for everyone.</p>
+        </section>
+
+        <section id="gallery" class="card">
+            <h2>📸 Our Pin Collections</h2>
+            <p>Take a closer look at our high-quality, glossy finish pins in action!</p>
+            
+            <div class="gallery-grid">
+                
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="pink-bag.jpeg" alt="The Classic Pink Bag Collection">
+                    </div>
+                    <div class="gallery-caption">The Classic Collection</div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="artist-poster.jpeg" alt="Custom Artists Pinbacks">
+                    </div>
+                    <div class="gallery-caption">Custom Artist Pinbacks</div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="display-stand.jpeg" alt="Acrylic Display Stand">
+                    </div>
+                    <div class="gallery-caption">Pop Culture Favorites</div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="mothers-day.jpeg" alt="Mother's Day Pins">
+                    </div>
+                    <div class="gallery-caption">Special Occasion & Floral</div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="black-backpack.jpeg" alt="Anime and Shows Backpack">
+                    </div>
+                    <div class="gallery-caption">Shows & Anime Highlights</div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-image-wrapper">
+                        <img src="pencil-case.jpeg" alt="Pencil Case Pin">
+                    </div>
+                    <div class="gallery-caption">Perfect for School Gear!</div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="pricing" class="card">
+            <h2>💸 Snag Your Pins!</h2>
+            <p style="text-align:center; font-size: 1.4rem;"><strong>$2.00 for 1 Button  |  $3.00 for 2 Buttons</strong></p>
+            
+            <div class="calculator">
+                <h3>🧮 Build Your Collection Estimator</h3>
+                <p>How many pins do you want for your bag?</p>
+                <input type="number" id="pinCount" value="4" min="1" oninput="calculateTotal()">
+                
+                <div class="results-box">
+                    <div>
+                        <h3>Total Cost</h3>
+                        <div id="totalCost" style="font-size: 2rem; font-weight: 900;">$6.00</div>
+                    </div>
+                    <div>
+                        <h3>Charity Donation</h3>
+                        <div id="charityTotal" style="font-size: 2rem; font-weight: 900;">$0.60</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="event" class="card">
+            <h2>📅 DON'T MISS OUT! (Trade Show)</h2>
+            <p>Come check out the full physical collection of unique handmade button pins!</p>
+            <p style="border-top: 1px dashed var(--rose); padding-top: 20px; margin-top: 20px;">
+                📍 <strong>Where:</strong> Gym @ Allan A Martin Senior Public School<br>
+                🗓️ <strong>Date:</strong> May 7, 2026<br>
+                ⏰ <strong>Time:</strong> Periods 2-5 <strong>AND</strong> 5:00 PM - 9:00 PM
+            </p>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="nav-monogram" style="margin: 0 auto 15px auto; border-color: var(--cream);">
+            <img src="monogram.jpeg" alt="BU Monogram">
+        </div>
+        © Buttoned Up by Romesa | @aam_buttoned_up <br>
+        <span style="color: var(--rose); font-size: 1.1rem; margin-top: 10px; display: inline-block;">Badges that speak your style.</span>
+    </footer>
+
+    <script>
+        // Pin interaction function
+        function showPinInfo(element, title, description) {
+            document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+            element.classList.add('active');
+            
+            const infoPanel = document.getElementById("pin-info");
+            document.getElementById("pin-title").innerText = title;
+            document.getElementById("pin-desc").innerText = description;
+            infoPanel.style.display = "block";
+            
+            infoPanel.style.animation = 'none';
+            infoPanel.offsetHeight; 
+            infoPanel.style.animation = null; 
+        }
+
+        // Live Calculator Function
+        function calculateTotal() {
+            let count = parseInt(document.getElementById("pinCount").value) || 0;
+            let pairs = Math.floor(count / 2);
+            let singles = count % 2;
+            let total = (pairs * 3) + (singles * 2);
+            let charity = total * 0.10;
+
+            document.getElementById("totalCost").innerText = "$" + total.toFixed(2);
+            document.getElementById("charityTotal").innerText = "$" + charity.toFixed(2);
+        }
+        
+        calculateTotal();
+    </script>
+
+</body>
+</html>
